@@ -2,6 +2,10 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
+## [0.68.1] - 2022-02-17
+### Changed
+- `pom.xml`: Changed the `json-kotlin-schema` dependency location to point to a self-managed version
+
 ## [0.68] - 2022-01-20
 ### Changed
 - `CodeGenerator`: fixed bug - derived class losing type details for array in base class

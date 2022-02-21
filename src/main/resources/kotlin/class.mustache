@@ -5,7 +5,8 @@
 {{/last}}{{/imports}}{{#schema}}{{#description}}/**
  * {{&safeDescription}}
  */
-{{/description}}{{/schema}}{{#numberOfProperties}}{{>data_open_class}} {{&className}}({{!
+{{/description}}{{/schema}}{{#classAnnotations}}@{{&.}}
+{{#last}}{{/last}}{{/classAnnotations}}{{#numberOfProperties}}{{>data_open_class}} {{&className}}({{!
 }}{{#properties}}{{^first}},{{/first}}
 {{#schema}}{{#description}}    /** {{&safeDescription}} */
 {{/description}}{{/schema}}    {{^baseProperty}}val {{/baseProperty}}{{&kotlinName}}: {{>type}}{{#defaultValue}} = {{>default_value}}{{/defaultValue}}{{!
@@ -23,7 +24,8 @@
 {{/hasBaseClassWithPropertiesOrIsBaseClass}}{{#nestedClasses}}
 {{#constraints}}{{#indent.increment}}{{>nested_class}}{{/indent.increment}}{{/constraints}}{{/nestedClasses}}{{>add_statics}}
 }{{/validationsOrNestedClassesOrStaticsOrBaseClassWithPropertiesPresentOrIsBaseClass}}{{/numberOfProperties}}{{!
-}}{{^numberOfProperties}}open class {{&className}}{{>extends_implements}}{{!
+}}{{^numberOfProperties}}{{#classAnnotations}}@{{&.}}
+{{#last}}{{/last}}{{/classAnnotations}}open class {{&className}}{{>extends_implements}}{{!
 }}{{#nestedClasses}}{{#first}} {
 {{/first}}
 {{#constraints}}{{#indent.increment}}{{>nested_class}}{{/indent.increment}}{{/constraints}}{{#last}}

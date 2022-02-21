@@ -18,6 +18,7 @@
 {{>copy}}
 {{>component}}
 
-{{/hasBaseClassWithProperties}}    }{{/validationsOrBaseClassWithPropertiesPresent}}{{/numberOfProperties}}{{^numberOfProperties}}open class {{&className}}{{/numberOfProperties}}{{/isObject}}{{#isString}}    enum class {{&className}} {
+{{/hasBaseClassWithProperties}}    }{{/validationsOrBaseClassWithPropertiesPresent}}{{/numberOfProperties}}{{^numberOfProperties}}{{#classAnnotations}}{{^first}}    {{/first}}@{{&.}}
+{{#last}}    {{/last}}{{/classAnnotations}}open class {{&className}}{{/numberOfProperties}}{{/isObject}}{{#isString}}    enum class {{&className}} {
 {{#enumValues}}        {{&.}}{{^last}},{{/last}}
 {{/enumValues}}    }{{/isString}}

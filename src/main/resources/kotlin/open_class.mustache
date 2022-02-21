@@ -5,7 +5,8 @@
 {{/last}}{{/imports}}{{#schema}}{{#description}}/**
  * {{&description}}
  */
-{{/description}}{{/schema}}open class {{&className}}(
+{{/description}}{{/schema}}{{#classAnnotations}}@{{&.}}
+{{#last}}{{/last}}{{/classAnnotations}}open class {{&className}}(
 {{#baseClass}}{{#constraints}}{{#properties}}{{#schema}}{{#description}}    /** {{&safeDescription}} */
 {{/description}}{{/schema}}    {{&kotlinName}}: {{>type}}{{^isRequired}} = {{!
 }}{{#defaultValue}}{{>default_value}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/isRequired}},

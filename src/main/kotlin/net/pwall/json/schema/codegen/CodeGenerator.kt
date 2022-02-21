@@ -113,6 +113,8 @@ class CodeGenerator(
     private val customClassesByFormat = mutableListOf<CustomClassByFormat>()
     private val customClassesByExtension = mutableListOf<CustomClassByExtension>()
 
+    private val classAnnotations = mutableListOf<String>()
+
     private val classNameMapping = mutableListOf<Pair<URI, String>>()
 
     fun addClassNameMapping(uri: URI, name: String) {
@@ -451,6 +453,7 @@ class CodeGenerator(
             json = json,
         )
         markerInterface?.let { target.addInterface(it) }
+        target.classAnnotations.addAll(classAnnotations)
         val targets = listOf(target)
         processTargetCrossReferences(targets)
         generateTarget(target)
@@ -482,6 +485,7 @@ class CodeGenerator(
                 json = json,
             ).also { t ->
                 markerInterface?.let { i -> t.addInterface(i) }
+                t.classAnnotations.addAll(classAnnotations)
             }
         }
         processTargetCrossReferences(targets)
@@ -562,7 +566,10 @@ class CodeGenerator(
             generatorComment = generatorComment,
             commentTemplate = commentTemplate,
             json = json,
-        ).also { t -> markerInterface?.let { t.addInterface(it) } })
+        ).also { t ->
+            markerInterface?.let { t.addInterface(it) }
+            t.classAnnotations.addAll(classAnnotations)
+        })
     }
 
     private fun addTargets(targets: MutableList<Target>, subDirectories: List<String>, inputDir: File) {
@@ -619,6 +626,7 @@ class CodeGenerator(
                                 json = refTarget.json,
                             )
                             markerInterface?.let { i -> baseTarget.addInterface(i) }
+                            baseTarget.classAnnotations.addAll(classAnnotations)
                             classDescriptor.baseClass = baseTarget
                             target.addImport(baseTarget)
                             processSchema(baseTarget.schema, baseTarget.constraints)
@@ -1301,6 +1309,10 @@ class CodeGenerator(
     fun addCustomClassByExtension(extensionId: String, extensionValue: Any?, classId: ClassId) {
         customClassesByExtension.add(CustomClassByExtension(extensionId, extensionValue, classId.className,
                 classId.packageName))
+    }
+
+    fun addClassAnnotation(name: String) {
+        classAnnotations.add(name)
     }
 
     private var nameGenerator = NameGenerator()

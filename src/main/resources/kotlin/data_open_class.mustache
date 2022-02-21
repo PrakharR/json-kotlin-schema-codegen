@@ -1,2 +1,3 @@
-{{#constraints}}{{#derivedClasses}}{{#first}}open {{/first}}{{/derivedClasses}}{{!
+{{#constraints}}{{#derivedClasses}}{{#classAnnotations}}@{{&.}}
+{{#last}}{{/last}}{{/classAnnotations}}{{#first}}open {{/first}}{{/derivedClasses}}{{!
 }}{{^derivedClasses}}{{^hasBaseClassWithProperties}}data {{/hasBaseClassWithProperties}}{{/derivedClasses}}class{{/constraints}}

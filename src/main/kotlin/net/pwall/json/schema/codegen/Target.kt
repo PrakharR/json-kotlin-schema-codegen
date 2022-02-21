@@ -99,6 +99,9 @@ class Target(
     val validationsOrNestedClassesOrStaticsOrBaseClassWithPropertiesPresentOrIsBaseClass: Boolean
         get() = validationsPresent || nestedClassesPresent || staticsPresent || hasBaseClassWithPropertiesOrIsBaseClass
 
+    @Suppress("unused")
+    val classAnnotations = mutableListOf<String>()
+
     fun addInterface(classId: ClassId) {
         interfaces.add(classId)
         addImport(classId)

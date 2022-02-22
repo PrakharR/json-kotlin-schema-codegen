@@ -166,4 +166,13 @@ class Target(
 
     }
 
+    init {
+        schema.existingInterfaces?.forEach { interfaceQualifiedClassName ->
+            val className = interfaceQualifiedClassName.substringAfterLast('.')
+            val packageName = interfaceQualifiedClassName
+                .substringBeforeLast('.', "")
+                .takeIf { it.isNotEmpty() }
+            addInterface(ClassName(className, packageName))
+        }
+    }
 }

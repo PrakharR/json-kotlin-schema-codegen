@@ -107,6 +107,11 @@ class Target(
         addImport(classId)
     }
 
+    fun addAnnotation(classId: ClassId) {
+        classAnnotations.add(classId.className)
+        addImport(classId)
+    }
+
     fun addNestedClass(
         constraints: Constraints,
         comparisonSchema: JSONSchema?,

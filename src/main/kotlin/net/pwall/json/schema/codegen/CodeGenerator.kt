@@ -113,7 +113,7 @@ class CodeGenerator(
     private val customClassesByFormat = mutableListOf<CustomClassByFormat>()
     private val customClassesByExtension = mutableListOf<CustomClassByExtension>()
 
-    private val classAnnotations = mutableListOf<String>()
+    private val classAnnotations = mutableListOf<ClassId>()
 
     private val classNameMapping = mutableListOf<Pair<URI, String>>()
 
@@ -453,7 +453,7 @@ class CodeGenerator(
             json = json,
         )
         markerInterface?.let { target.addInterface(it) }
-        target.classAnnotations.addAll(classAnnotations)
+        classAnnotations.forEach { target.addAnnotation(it) }
         val targets = listOf(target)
         processTargetCrossReferences(targets)
         generateTarget(target)
@@ -485,7 +485,7 @@ class CodeGenerator(
                 json = json,
             ).also { t ->
                 markerInterface?.let { i -> t.addInterface(i) }
-                t.classAnnotations.addAll(classAnnotations)
+                classAnnotations.forEach { a -> t.addAnnotation(a) }
             }
         }
         processTargetCrossReferences(targets)
@@ -568,7 +568,7 @@ class CodeGenerator(
             json = json,
         ).also { t ->
             markerInterface?.let { t.addInterface(it) }
-            t.classAnnotations.addAll(classAnnotations)
+            classAnnotations.forEach { t.addAnnotation(it) }
         })
     }
 
@@ -626,7 +626,7 @@ class CodeGenerator(
                                 json = refTarget.json,
                             )
                             markerInterface?.let { i -> baseTarget.addInterface(i) }
-                            baseTarget.classAnnotations.addAll(classAnnotations)
+                            classAnnotations.forEach { a -> baseTarget.addAnnotation(a) }
                             classDescriptor.baseClass = baseTarget
                             target.addImport(baseTarget)
                             processSchema(baseTarget.schema, baseTarget.constraints)
@@ -1311,8 +1311,8 @@ class CodeGenerator(
                 classId.packageName))
     }
 
-    fun addClassAnnotation(name: String) {
-        classAnnotations.add(name)
+    fun addClassAnnotation(classId: ClassId) {
+        classAnnotations.add(classId)
     }
 
     private var nameGenerator = NameGenerator()

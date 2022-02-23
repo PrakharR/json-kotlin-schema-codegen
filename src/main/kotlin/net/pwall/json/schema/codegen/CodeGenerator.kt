@@ -52,6 +52,7 @@ import net.pwall.json.schema.subschema.AllOfSchema
 import net.pwall.json.schema.subschema.CombinationSchema
 import net.pwall.json.schema.subschema.ExtensionSchema
 import net.pwall.json.schema.subschema.ItemsSchema
+import net.pwall.json.schema.subschema.OverriddenSchema
 import net.pwall.json.schema.subschema.PropertiesSchema
 import net.pwall.json.schema.subschema.RefSchema
 import net.pwall.json.schema.subschema.RequiredSchema
@@ -405,6 +406,7 @@ class CodeGenerator(
             })
         }
         nestedConstraints.required.addAll(constraints.required)
+        nestedConstraints.overridden.addAll(constraints.overridden)
         for (property in additionalConstraints.properties) {
             val existingProperty = nestedConstraints.properties.find { it.name == property.name }
             if (existingProperty != null)
@@ -416,6 +418,8 @@ class CodeGenerator(
             }
             if (additionalConstraints.required.contains(property.name))
                 nestedConstraints.required.add(property.name)
+            if (additionalConstraints.overridden.contains(property.name))
+                nestedConstraints.overridden.add(property.name)
         }
         val nestedClass = target.addNestedClass(nestedConstraints, null, Strings.toIdentifier(i))
         nestedClass.baseClass = target
@@ -645,6 +649,7 @@ class CodeGenerator(
     private fun analyseDerivedObject(target: Target, constraints: Constraints, refTarget: Target,
             targets: List<Target>): Boolean {
         analysePropertiesRequired(constraints)
+        analysePropertiesOverridden(constraints)
         var validationsPresent = false
         constraints.properties.forEach { property ->
             val baseConstraints = refTarget.constraints.properties.find { it.propertyName == property.propertyName }
@@ -683,8 +688,15 @@ class CodeGenerator(
         }
     }
 
+    private fun analysePropertiesOverridden(constraints: Constraints) {
+        constraints.properties.forEach { property ->
+            if (property.name in constraints.overridden) property.isOverridden = true
+        }
+    }
+
     private fun analyseProperties(target: Target, constraints: Constraints, targets: List<Target>): Boolean {
         analysePropertiesRequired(constraints)
+        analysePropertiesOverridden(constraints)
         return constraints.properties.fold(false) { result, property ->
             analyseProperty(target, targets, property, property, property.name) || result
         }
@@ -1159,6 +1171,8 @@ class CodeGenerator(
             is RefSchema -> processSchema(subSchema.target, constraints)
             is RequiredSchema -> subSchema.properties.forEach {
                     if (it !in constraints.required) constraints.required.add(it) }
+            is OverriddenSchema -> subSchema.properties.forEach {
+                    if (it !in constraints.overridden) constraints.overridden.add(it) }
         }
     }
 

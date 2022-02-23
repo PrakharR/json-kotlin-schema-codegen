@@ -11,7 +11,7 @@
 {{/description}}{{/schema}}    {{&kotlinName}}: {{>type}}{{^isRequired}} = {{!
 }}{{#defaultValue}}{{>default_value}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/isRequired}},
 {{/properties}}{{/constraints}}{{/baseClass}}{{#nonBaseProperties}}{{#schema}}{{#description}}    /** {{&safeDescription}} */
-{{/description}}{{/schema}}    val {{&kotlinName}}: {{>type}}{{^isRequired}} = {{!
+{{/description}}{{/schema}}    {{#isOverridden}}override {{/isOverridden}}val {{&kotlinName}}: {{>type}}{{^isRequired}} = {{!
 }}{{#defaultValue}}{{>default_value}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/isRequired}}{{^last}},{{/last}}
 {{/nonBaseProperties}}){{#baseClass}} : {{&className}}({{#constraints}}{{#properties}}{{&kotlinName}}{{^last}}, {{/last}}{{/properties}}{{/constraints}}){{!
 }}{{#interfaces}}, {{&className}}{{/interfaces}}{{/baseClass}}{{!

@@ -77,6 +77,8 @@ open class Constraints(val schema: JSONSchema) {
 
     var isRequired = false
 
+    var isOverridden = false
+
     var defaultValue: DefaultValue? = null
 
     val properties = mutableListOf<NamedConstraints>()
@@ -94,6 +96,7 @@ open class Constraints(val schema: JSONSchema) {
         get() = properties.filter { it.baseProperty == null }
 
     val required = mutableListOf<String>()
+    val overridden = mutableListOf<String>()
 
     var arrayItems: Constraints? = null
     var minItems: Int? = null
@@ -244,6 +247,7 @@ open class Constraints(val schema: JSONSchema) {
         systemClass = other.systemClass
         nullable = other.nullable
         isRequired = other.isRequired
+        isOverridden = other.isOverridden
         defaultValue = other.defaultValue
         for (property in other.properties)
             properties.add(NamedConstraints(property.schema, property.name).also { it.copyFrom(property) })

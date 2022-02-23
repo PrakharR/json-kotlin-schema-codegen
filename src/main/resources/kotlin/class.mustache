@@ -9,7 +9,7 @@
 {{#last}}{{/last}}{{/classAnnotations}}{{#numberOfProperties}}{{>data_open_class}} {{&className}}({{!
 }}{{#properties}}{{^first}},{{/first}}
 {{#schema}}{{#description}}    /** {{&safeDescription}} */
-{{/description}}{{/schema}}    {{^baseProperty}}val {{/baseProperty}}{{&kotlinName}}: {{>type}}{{#defaultValue}} = {{>default_value}}{{/defaultValue}}{{!
+{{/description}}{{/schema}}    {{#isOverridden}}override {{/isOverridden}}{{^baseProperty}}val {{/baseProperty}}{{&kotlinName}}: {{>type}}{{#defaultValue}} = {{>default_value}}{{/defaultValue}}{{!
 }}{{^isRequired}}{{^defaultValue}} = null{{/defaultValue}}{{/isRequired}}{{/properties}}
 ){{>extends_implements}}{{#validationsOrNestedClassesOrStaticsOrBaseClassWithPropertiesPresentOrIsBaseClass}} {
 

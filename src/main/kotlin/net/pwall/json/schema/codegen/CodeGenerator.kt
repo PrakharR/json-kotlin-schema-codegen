@@ -115,6 +115,7 @@ class CodeGenerator(
     private val customClassesByExtension = mutableListOf<CustomClassByExtension>()
 
     private val classAnnotations = mutableListOf<ClassId>()
+    private val fileAnnotations = mutableListOf<FileAnnotation>()
 
     private val classNameMapping = mutableListOf<Pair<URI, String>>()
 
@@ -458,6 +459,7 @@ class CodeGenerator(
         )
         markerInterface?.let { target.addInterface(it) }
         classAnnotations.forEach { target.addAnnotation(it) }
+        fileAnnotations.forEach { target.addFileAnnotation(it) }
         val targets = listOf(target)
         processTargetCrossReferences(targets)
         generateTarget(target)
@@ -490,6 +492,7 @@ class CodeGenerator(
             ).also { t ->
                 markerInterface?.let { i -> t.addInterface(i) }
                 classAnnotations.forEach { a -> t.addAnnotation(a) }
+                fileAnnotations.forEach { a -> t.addFileAnnotation(a) }
             }
         }
         processTargetCrossReferences(targets)
@@ -573,6 +576,7 @@ class CodeGenerator(
         ).also { t ->
             markerInterface?.let { t.addInterface(it) }
             classAnnotations.forEach { t.addAnnotation(it) }
+            fileAnnotations.forEach { t.addFileAnnotation(it) }
         })
     }
 
@@ -631,6 +635,7 @@ class CodeGenerator(
                             )
                             markerInterface?.let { i -> baseTarget.addInterface(i) }
                             classAnnotations.forEach { a -> baseTarget.addAnnotation(a) }
+                            fileAnnotations.forEach { a -> baseTarget.addFileAnnotation(a) }
                             classDescriptor.baseClass = baseTarget
                             target.addImport(baseTarget)
                             processSchema(baseTarget.schema, baseTarget.constraints)
@@ -1325,8 +1330,14 @@ class CodeGenerator(
                 classId.packageName))
     }
 
+    @Suppress("unused")
     fun addClassAnnotation(classId: ClassId) {
         classAnnotations.add(classId)
+    }
+
+    @Suppress("unused")
+    fun addFileAnnotation(classId: ClassId, params: List<String>) {
+        fileAnnotations.add(FileAnnotation(classId, params))
     }
 
     private var nameGenerator = NameGenerator()
@@ -1397,6 +1408,8 @@ class CodeGenerator(
         }
 
     }
+
+    data class FileAnnotation(val classId: ClassId, val params: List<String>)
 
     class AppendableFilter(private val destination: Appendable, private val maxNewlines: Int = 2) : Appendable {
 

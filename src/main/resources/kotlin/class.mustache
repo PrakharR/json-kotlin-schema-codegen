@@ -1,4 +1,5 @@
-{{>header}}{{#packageName}}package {{&packageName}}
+{{#fileAnnotations}}{{#classId}}@file:{{&className}}{{/classId}}{{#params}}{{#first}}({{/first}}{{^first}}, {{/first}}{{&.}}{{#last}}){{/last}}{{/params}}
+{{/fileAnnotations}}{{>header}}{{#packageName}}package {{&packageName}}
 
 {{/packageName}}{{#constraints}}{{>system_imports}}{{#imports}}import {{&.}}
 {{#last}}

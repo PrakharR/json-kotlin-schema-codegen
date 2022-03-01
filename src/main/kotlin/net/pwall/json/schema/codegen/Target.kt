@@ -102,6 +102,9 @@ class Target(
     @Suppress("unused")
     val classAnnotations = mutableListOf<String>()
 
+    @Suppress("unused")
+    val fileAnnotations = mutableListOf<CodeGenerator.FileAnnotation>()
+
     fun addInterface(classId: ClassId) {
         interfaces.add(classId)
         addImport(classId)
@@ -110,6 +113,11 @@ class Target(
     fun addAnnotation(classId: ClassId) {
         classAnnotations.add(classId.className)
         addImport(classId)
+    }
+
+    fun addFileAnnotation(fileAnnotation: CodeGenerator.FileAnnotation) {
+        fileAnnotations.add(fileAnnotation)
+        addImport(fileAnnotation.classId)
     }
 
     fun addNestedClass(

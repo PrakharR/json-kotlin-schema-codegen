@@ -25,8 +25,7 @@
 {{/hasBaseClassWithPropertiesOrIsBaseClass}}{{#nestedClasses}}
 {{#constraints}}{{#indent.increment}}{{>nested_class}}{{/indent.increment}}{{/constraints}}{{/nestedClasses}}{{>add_statics}}
 }{{/validationsOrNestedClassesOrStaticsOrBaseClassWithPropertiesPresentOrIsBaseClass}}{{/numberOfProperties}}{{!
-}}{{^numberOfProperties}}{{#classAnnotations}}@{{&.}}
-{{#last}}{{/last}}{{/classAnnotations}}open class {{&className}}{{>extends_implements}}{{!
+}}{{^numberOfProperties}}open class {{&className}}{{>extends_implements}}{{!
 }}{{#nestedClasses}}{{#first}} {
 {{/first}}
 {{#constraints}}{{#indent.increment}}{{>nested_class}}{{/indent.increment}}{{/constraints}}{{#last}}

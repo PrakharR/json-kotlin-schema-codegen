@@ -125,7 +125,10 @@ open class Constraints(val schema: JSONSchema) {
 
     @Suppress("unused")
     val safeDescription: String?
-        get() = schema.description?.trim()?.replace("*/", "* /")
+        get() = schema.description
+            ?.trim()
+            ?.replace("*/", "* /")
+            ?.replace("/*", "/ *")
 
     @Suppress("unused")
     val isIdentifiableType: Boolean
